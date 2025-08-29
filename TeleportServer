@@ -15,15 +15,16 @@ soundContainer.Parent = playerGui
 -- Создаем звуки с защитой от ошибок
 local function createSound(soundId, volume)
     local sound = Instance.new("Sound")
-    sound.SoundId = soundId
+    sound.SoundId = "rbxassetid://" .. soundId
     sound.Volume = volume
     sound.Parent = soundContainer
     return sound
 end
 
-local clickSound = createSound("rbxassetid://177266782", 0.4)
-local altClickSound = createSound("rbxassetid://5786309572", 0.3)
-local hoverSound = createSound("rbxassetid://8763180073", 0.2)
+local clickSound = createSound("177266782", 0.4)
+local altClickSound = createSound("5786309572", 0.3)
+local hoverSound = createSound("8763180073", 0.2)
+local errorSound = createSound("9076854890", 0.5)
 
 -- Основной GUI
 local screenGui = Instance.new("ScreenGui")
@@ -34,9 +35,9 @@ screenGui.Parent = playerGui
 
 -- Цветовая палитра
 local colorPalette = {
-    primary = Color3.fromRGB(147, 112, 219),    -- Фиолетовый
-    secondary = Color3.fromRGB(200, 100, 255),  -- Яркий фиолетовый
-    accent = Color3.fromRGB(180, 70, 255),      -- Неоновый фиолетовый
+    primary = Color3.fromRGB(147, 112, 219),
+    secondary = Color3.fromRGB(200, 100, 255),
+    accent = Color3.fromRGB(180, 70, 255),
     dark = Color3.fromRGB(30, 25, 40),
     light = Color3.fromRGB(245, 240, 255),
     success = Color3.fromRGB(120, 80, 220),
@@ -45,14 +46,14 @@ local colorPalette = {
     background = Color3.fromRGB(25, 20, 35)
 }
 
--- НОВЫЙ РАЗМЕР КРУГА (измените эти значения по вашему усмотрению)
-local CIRCLE_SIZE = 60  -- вместо 70
-local CIRCLE_HOVER_SIZE = 65 -- вместо 75
+-- Размеры круга
+local CIRCLE_SIZE = 60
+local CIRCLE_HOVER_SIZE = 65
 
--- КРАСИВАЯ КНОПКА ПЕРЕКЛЮЧЕНИЯ МЕНЮ
+-- Кнопка переключения меню
 local toggleButton = Instance.new("ImageButton")
 toggleButton.Name = "ToggleButton"
-toggleButton.Size = UDim2.new(0, CIRCLE_SIZE, 0, CIRCLE_SIZE) -- Измененный размер
+toggleButton.Size = UDim2.new(0, CIRCLE_SIZE, 0, CIRCLE_SIZE)
 toggleButton.Position = UDim2.new(0, 25, 0, 25)
 toggleButton.BackgroundColor3 = colorPalette.primary
 toggleButton.Image = ""
@@ -94,11 +95,11 @@ innerShadow.BackgroundTransparency = 1
 innerShadow.ZIndex = toggleButton.ZIndex + 1
 innerShadow.Parent = toggleButton
 
--- Иконка меню (бургер-иконка)
+-- Иконка меню
 local menuIcon = Instance.new("Frame")
 menuIcon.Name = "MenuIcon"
-menuIcon.Size = UDim2.new(0, 25, 0, 20) -- Уменьшенная иконка для меньшего круга
-menuIcon.Position = UDim2.new(0.5, -12.5, 0.5, -10) -- Центрирование для нового размера
+menuIcon.Size = UDim2.new(0, 25, 0, 20)
+menuIcon.Position = UDim2.new(0.5, -12.5, 0.5, -10)
 menuIcon.BackgroundTransparency = 1
 menuIcon.Parent = toggleButton
 
@@ -106,7 +107,7 @@ menuIcon.Parent = toggleButton
 for i = 1, 3 do
     local line = Instance.new("Frame")
     line.Name = "Line" .. i
-    line.Size = UDim2.new(1, 0, 0, 2.5) -- Более тонкие линии
+    line.Size = UDim2.new(1, 0, 0, 2.5)
     line.Position = UDim2.new(0, 0, (i-1)/3, 0)
     line.BackgroundColor3 = Color3.new(1, 1, 1)
     line.BorderSizePixel = 0
@@ -126,8 +127,8 @@ buttonShadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
 buttonShadow.ImageTransparency = 0.85
 buttonShadow.ScaleType = Enum.ScaleType.Slice
 buttonShadow.SliceCenter = Rect.new(10, 10, 118, 118)
-buttonShadow.Size = UDim2.new(1, 12, 1, 12) -- Уменьшенная тень
-buttonShadow.Position = UDim2.new(0, -6, 0, -6) -- Позиция для новой тени
+buttonShadow.Size = UDim2.new(1, 12, 1, 12)
+buttonShadow.Position = UDim2.new(0, -6, 0, -6)
 buttonShadow.BackgroundTransparency = 1
 buttonShadow.ZIndex = toggleButton.ZIndex - 1
 buttonShadow.Parent = toggleButton
@@ -144,13 +145,6 @@ hoverGlow.BackgroundTransparency = 1
 hoverGlow.ZIndex = toggleButton.ZIndex - 1
 hoverGlow.Visible = false
 hoverGlow.Parent = toggleButton
-
--- Эффект частиц для кнопки
-local particleEmitter = Instance.new("Frame")
-particleEmitter.Name = "ParticleEmitter"
-particleEmitter.Size = UDim2.new(1, 0, 1, 0)
-particleEmitter.BackgroundTransparency = 1
-particleEmitter.Parent = toggleButton
 
 -- Основной фрейм меню
 local frame = Instance.new("Frame")
@@ -366,7 +360,7 @@ closeButtonStroke.Parent = closeButton
 local creditLabel = Instance.new("TextLabel")
 creditLabel.Name = "CreditLabel"
 creditLabel.Size = UDim2.new(0, 120, 0, 20)
-creditLabel.Position = UDim2.new(1, -125, 1, -25) -- Правый нижний угол
+creditLabel.Position = UDim2.new(1, -125, 1, -25)
 creditLabel.Text = "by @TeleportMenu"
 creditLabel.BackgroundTransparency = 1
 creditLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
@@ -375,17 +369,14 @@ creditLabel.TextSize = 12
 creditLabel.TextXAlignment = Enum.TextXAlignment.Right
 creditLabel.Parent = frame
 
--- Улучшенная система частиц
+-- Улучшенная система частиц (белые точки)
 local function createParticleEffect(parent, isMenu)
     local particle = Instance.new("Frame")
-    local size = isMenu and math.random(3, 8) or math.random(2, 5)
+    local size = isMenu and math.random(4, 10) or math.random(3, 6)
     particle.Size = UDim2.new(0, size, 0, size)
-    particle.BackgroundColor3 = Color3.fromRGB(
-        math.random(140, 180),
-        math.random(100, 150),
-        math.random(200, 255)
-    )
+    particle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     particle.BorderSizePixel = 0
+    particle.ZIndex = parent.ZIndex - 1
     particle.Parent = parent
     
     local corner = Instance.new("UICorner")
@@ -395,66 +386,19 @@ local function createParticleEffect(parent, isMenu)
     return particle
 end
 
--- Система частиц для кнопки
-coroutine.wrap(function()
-    while toggleButton and toggleButton.Parent do
-        if isMenuOpen then
-            local particle = createParticleEffect(particleEmitter, false)
-            particle.Position = UDim2.new(
-                math.random(), -2,
-                math.random(), -2
-            )
-            
-            local tween = TweenService:Create(particle, TweenInfo.new(math.random(1, 3), Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                Position = UDim2.new(math.random(), -2, math.random(), -2),
-                BackgroundTransparency = 1,
-                Size = UDim2.new(0, 1, 0, 1)
-            })
-            
-            tween:Play()
-            tween.Completed:Connect(function()
-                if particle then
-                    particle:Destroy()
-                end
-            end)
-        end
-        wait(0.3)
-    end
-end)()
-
 -- Система частиц для меню
 local menuParticleContainer = Instance.new("Frame")
 menuParticleContainer.Name = "MenuParticles"
 menuParticleContainer.Size = UDim2.new(1, 0, 1, 0)
 menuParticleContainer.BackgroundTransparency = 1
 menuParticleContainer.Visible = false
+menuParticleContainer.ZIndex = frame.ZIndex - 1
 menuParticleContainer.Parent = frame
 
-coroutine.wrap(function()
-    while menuParticleContainer and menuParticleContainer.Parent do
-        if isMenuOpen then
-            local particle = createParticleEffect(menuParticleContainer, true)
-            particle.Position = UDim2.new(
-                0, math.random(0, 320),
-                0, math.random(0, 250)
-            )
-            
-            local tween = TweenService:Create(particle, TweenInfo.new(math.random(2, 5), Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                Position = UDim2.new(0, math.random(0, 320), 0, math.random(0, 250)),
-                BackgroundTransparency = 1,
-                Size = UDim2.new(0, 2, 0, 2)
-            })
-            
-            tween:Play()
-            tween.Completed:Connect(function()
-                if particle then
-                    particle:Destroy()
-                end
-            end)
-        end
-        wait(0.5)
-    end
-end)()
+-- Переменные состояния
+local isMenuOpen = false
+local isTeleporting = false
+local lastMousePosition = Vector2.new(0, 0)
 
 -- Оптимизация: кэшируем оригинальные значения
 local originalButtonText = teleportButton.Text
@@ -466,7 +410,7 @@ local connectingColor = Color3.fromRGB(50, 50, 150)
 
 -- Функция для безопасного проигрывания звука
 local function playClickSound(soundType)
-    local sound = soundType == "alt" and altClickSound or (soundType == "hover" and hoverSound or clickSound)
+    local sound = soundType == "alt" and altClickSound or (soundType == "hover" and hoverSound or (soundType == "error" and errorSound or clickSound))
     if sound and sound.IsLoaded ~= false then
         sound:Play()
     end
@@ -521,6 +465,9 @@ end
 
 -- Основная функция телепортации
 local function teleport()
+    if isTeleporting then return end
+    isTeleporting = true
+    
     playClickSound("alt")
     
     -- Обновляем UI
@@ -533,12 +480,31 @@ local function teleport()
     
     if not placeId then
         updateStatus("Некорректный ввод", errorColor)
+        playClickSound("error")
+        
+        -- Анимация ошибки
+        local shakeTween = TweenService:Create(textBox, TweenInfo.new(0.1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, 3, true), {
+            Position = UDim2.new(0.05, 5, 0, 60)
+        })
+        shakeTween:Play()
+        
+        TweenService:Create(textBoxFocusStroke, TweenInfo.new(0.2), {
+            Color = colorPalette.error,
+            Transparency = 0
+        }):Play()
+        
         delay(2, function()
             if teleportButton then
                 resetButton()
                 resetStatus()
+                TweenService:Create(textBoxFocusStroke, TweenInfo.new(0.2), {
+                    Color = colorPalette.accent,
+                    Transparency = 1
+                }):Play()
             end
         end)
+        
+        isTeleporting = false
         return
     end
     
@@ -549,6 +515,7 @@ local function teleport()
     
     if not success then
         updateStatus("Ошибка: " .. tostring(result):sub(1, 30), errorColor)
+        playClickSound("error")
         delay(2, function()
             if teleportButton then
                 resetButton()
@@ -564,19 +531,13 @@ local function teleport()
             end
         end)
     end
+    
+    isTeleporting = false
 end
 
--- Обработчик клика по кнопке телепортации
-teleportButton.MouseButton1Click:Connect(function()
-    playClickSound("default")
-    teleport()
-end)
-
 -- Анимации
-local openTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
-local closeTweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-
-local isMenuOpen = false
+local openTweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+local closeTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 
 local function openMenu()
     playClickSound("default")
@@ -587,7 +548,7 @@ local function openMenu()
     frame.Position = UDim2.new(0.5, -25, 0.5, -25)
     backgroundBlur.BackgroundTransparency = 1
     
-    TweenService:Create(backgroundBlur, TweenInfo.new(0.3), {
+    TweenService:Create(backgroundBlur, TweenInfo.new(0.4), {
         BackgroundTransparency = 0.3
     }):Play()
     
@@ -602,7 +563,7 @@ end
 local function closeMenu()
     playClickSound("default")
     
-    TweenService:Create(backgroundBlur, TweenInfo.new(0.3), {
+    TweenService:Create(backgroundBlur, TweenInfo.new(0.4), {
         BackgroundTransparency = 1
     }):Play()
     
@@ -619,10 +580,10 @@ local function closeMenu()
     end)
 end
 
--- Анимация для иконки меню при открытии/закрытии
+-- Анимация для иконки меню
 local function animateMenuIcon(isOpen)
     local lines = menuIcon:GetChildren()
-    local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    local tweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
     
     if isOpen then
         -- Превращаем в крестик
@@ -675,7 +636,7 @@ closeButton.MouseButton1Click:Connect(toggleMenu)
 -- Функция для эффектов наведения
 local function setupButtonEffects(button)
     local originalSize = button.Size
-    local hoverTweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    local hoverTweenInfo = TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
     
     button.MouseEnter:Connect(function()
         playClickSound("hover")
@@ -685,7 +646,7 @@ local function setupButtonEffects(button)
         
         if button.Name == "TeleportButton" then
             teleportButtonGlow.Visible = true
-            TweenService:Create(teleportButtonGlow, TweenInfo.new(0.2), {
+            TweenService:Create(teleportButtonGlow, TweenInfo.new(0.25), {
                 ImageTransparency = 0.7
             }):Play()
         end
@@ -697,7 +658,7 @@ local function setupButtonEffects(button)
         }):Play()
         
         if button.Name == "TeleportButton" then
-            TweenService:Create(teleportButtonGlow, TweenInfo.new(0.2), {
+            TweenService:Create(teleportButtonGlow, TweenInfo.new(0.25), {
                 ImageTransparency = 0.9
             }):Play()
             teleportButtonGlow.Visible = false
@@ -707,13 +668,13 @@ end
 
 -- Эффекты для текстового поля
 textBox.Focused:Connect(function()
-    TweenService:Create(textBoxFocusStroke, TweenInfo.new(0.2), {
+    TweenService:Create(textBoxFocusStroke, TweenInfo.new(0.25), {
         Transparency = 0
     }):Play()
 end)
 
 textBox.FocusLost:Connect(function()
-    TweenService:Create(textBoxFocusStroke, TweenInfo.new(0.2), {
+    TweenService:Create(textBoxFocusStroke, TweenInfo.new(0.25), {
         Transparency = 1
     }):Play()
 end)
@@ -726,85 +687,120 @@ setupButtonEffects(closeButton)
 toggleButton.MouseEnter:Connect(function()
     playClickSound("hover")
     
-    -- Анимация увеличения
-    TweenService:Create(toggleButton, TweenInfo.new(0.2), {
-        Size = UDim2.new(0, CIRCLE_HOVER_SIZE, 0, CIRCLE_HOVER_SIZE) -- Измененный размер при наведении
+    TweenService:Create(toggleButton, TweenInfo.new(0.25), {
+        Size = UDim2.new(0, CIRCLE_HOVER_SIZE, 0, CIRCLE_HOVER_SIZE)
     }):Play()
     
-    -- Показываем свечение
     hoverGlow.Visible = true
     TweenService:Create(hoverGlow, TweenInfo.new(0.3), {
         ImageTransparency = 0.7
     }):Play()
     
-    -- Анимация градиента
     TweenService:Create(buttonGradient, TweenInfo.new(0.3), {
         Rotation = 90
     }):Play()
 end)
 
 toggleButton.MouseLeave:Connect(function()
-    -- Анимация уменьшения
-    TweenService:Create(toggleButton, TweenInfo.new(0.2), {
-        Size = UDim2.new(0, CIRCLE_SIZE, 0, CIRCLE_SIZE) -- Возврат к исходному размеру
+    TweenService:Create(toggleButton, TweenInfo.new(0.25), {
+        Size = UDim2.new(0, CIRCLE_SIZE, 0, CIRCLE_SIZE)
     }):Play()
     
-    -- Скрываем свечение
     TweenService:Create(hoverGlow, TweenInfo.new(0.3), {
         ImageTransparency = 0.9
     }):Play()
     hoverGlow.Visible = false
     
-    -- Возвращаем градиент
     TweenService:Create(buttonGradient, TweenInfo.new(0.3), {
         Rotation = 45
     }):Play()
 end)
 
--- Добавляем обработку клавиши Enter в текстовом поле
+-- Обработка клавиши Enter в текстовом поле
 textBox.FocusLost:Connect(function(enterPressed)
     if enterPressed then
         teleport()
     end
 end)
 
--- Защита от множественных кликов
-local isTeleporting = false
+-- Обработчик клика по кнопке телепортации
 teleportButton.MouseButton1Click:Connect(function()
-    if isTeleporting then return end
-    isTeleporting = true
-    playClickSound("default")
     teleport()
-    
-    -- Автоматическое снятие блокировки через 3 секунды
-    delay(3, function()
-        isTeleporting = false
-    end)
 end)
+
+-- Система частиц для меню - УМЕНЬШИЛ КОЛИЧЕСТВО ЧАСТИЦ В 2 РАЗА
+coroutine.wrap(function()
+    while menuParticleContainer and menuParticleContainer.Parent do
+        if isMenuOpen then
+            for i = 1, 2 do  -- Уменьшил с 5 до 2 частиц за раз
+                local particle = createParticleEffect(menuParticleContainer, true)
+                particle.Position = UDim2.new(
+                    0, math.random(0, 320),
+                    0, math.random(0, 250)
+                )
+                
+                local tween = TweenService:Create(particle, TweenInfo.new(math.random(2, 5), Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                    Position = UDim2.new(0, math.random(0, 320), 0, math.random(0, 250)),
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(0, 2, 0, 2)
+                })
+                
+                tween:Play()
+                tween.Completed:Connect(function()
+                    if particle then
+                        particle:Destroy()
+                    end
+                end)
+            end
+        end
+        wait(0.3)  -- Увеличил интервал между созданием частиц
+    end
+end)()
 
 -- Пульсация главной кнопки
 coroutine.wrap(function()
     while true do
-        TweenService:Create(buttonGradient, TweenInfo.new(1.5), {
+        TweenService:Create(buttonGradient, TweenInfo.new(2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
             Rotation = 135
         }):Play()
-        TweenService:Create(frameGradient, TweenInfo.new(1.5), {
+        TweenService:Create(frameGradient, TweenInfo.new(2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
             Rotation = 135
         }):Play()
-        wait(2)
-        TweenService:Create(buttonGradient, TweenInfo.new(1.5), {
+        wait(2.2)
+        TweenService:Create(buttonGradient, TweenInfo.new(2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
             Rotation = 45
         }):Play()
-        TweenService:Create(frameGradient, TweenInfo.new(1.5), {
+        TweenService:Create(frameGradient, TweenInfo.new(2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
             Rotation = 45
         }):Play()
-        wait(2)
+        wait(2.2)
     end
 end)()
 
--- Очистка при удалении GUI
-screenGui.Destroying:Connect(function()
-    if soundContainer then
-        soundContainer:Destroy()
+-- Эффект параллакса при движении мыши
+local mouse = player:GetMouse()
+lastMousePosition = Vector2.new(mouse.X, mouse.Y)
+
+local function updateParallax()
+    if not frame.Visible then return end
+    
+    local currentMouse = Vector2.new(mouse.X, mouse.Y)
+    local delta = (currentMouse - lastMousePosition) * 0.01
+    lastMousePosition = currentMouse
+    
+    -- Плавное смещение фона
+    frameGradient.Offset = frameGradient.Offset + Vector2.new(delta.X, delta.Y)
+    buttonGradient.Offset = buttonGradient.Offset + Vector2.new(delta.X * 0.5, delta.Y * 0.5)
+end
+
+-- Обновление параллакса
+RunService.RenderStepped:Connect(updateParallax)
+
+-- Защита от удаления GUI
+screenGui:GetPropertyChangedSignal("Parent"):Connect(function()
+    if not screenGui.Parent then
+        screenGui.Parent = playerGui
     end
 end)
+
+print("Teleport GUI успешно загружен! Нажмите на круглую кнопку для открытия меню.")
